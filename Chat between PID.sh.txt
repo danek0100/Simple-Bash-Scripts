@@ -1,0 +1,68 @@
+#!/bin/bash
+
+trap "cat text.txt" 6
+
+echo "Terminal: Hello, my friend, you can see the users who avallible for communication:"
+
+while true
+do
+	echo ""
+	
+	pstree -p | grep lab_2.txt
+	
+	echo ""
+	echo "Terminal: Soooo your PID $$"
+
+	echo "Terminal: If you can make choice then input - '1', if you would like wathing at update list then input - '2'"
+	read flag
+
+	while [[ "$flag" == 2 ]]
+	do
+		pstree -p | grep lab_2.txt
+		echo "Terminal: I remind you of your PID = $$"
+		echo "Terminal: If you can make choice then input - '1', if you would like wathing at update list then input - '2'"
+		read flag
+	done
+
+	echo "Terminal: Ok, lat's create our chat with..."
+	echo "Terminal: Enter PID your buddy:"
+	read pid
+	echo "Terminal: I am cathing signal..."
+	echo "Terminal: Joined PID = $$" > text.txt
+	kill -6 "$pid"
+	
+	count=0
+	while true
+	do
+		if [[ $count == 0 ]]; then
+			echo "Terminal: Yes, I did it! You can start! Enter your text:"
+			count=1
+		fi
+		
+		
+		read text
+		
+		if [[ "$text" == "CHANGE" ]]; then
+			echo "Terminal: Ok, let's start from the begining."
+			echo "PID = $$ passed out, please input - 'CHANGE' for continue chatting..." > text.txt
+			kill -6 "$pid"
+			break
+		fi
+		
+		echo "$$: $text" > text.txt
+		kill -6 "$pid"
+		
+		if [[ $count == 1 ]]; then
+			echo "Terminal: Sorry to interrupt, but you can always change the person you're talking to, just input - 'CHANGE'."
+			count=2
+		fi
+	done
+	
+	echo "Terminal: If you want stop chating then input - 'STOP' now, else input something that you like."
+	read flag
+	if [[ "$flag" == "STOP" ]]; then
+		echo "Terminal: Thanks for your attention! Bye-Bye!"
+		break
+	fi	
+done
+rm text.txt

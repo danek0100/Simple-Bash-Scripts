@@ -1,0 +1,108 @@
+#!/bin/bash
+echo "Davay sigraem v stone - scissor - paper!"
+echo "Vvodi svoi vibor 'stone' or ' scissor' or 'paper'"
+echo "Esli vi ysteli skazite 'otpustite'"
+$res
+res=0
+while [ $res -ne 4 ]
+do
+
+read choice
+
+if [ "$choice" == "stone" ]
+then
+res=1
+
+elif [ "$choice" == "scissor" ]
+then
+res=2
+
+elif [ "$choice" == "paper" ]
+then
+res=3
+
+elif [ "$choice" == "otpustite" ]
+then
+res=4
+
+else
+res=0
+fi
+
+rand=$((1 + $RANDOM % 100))
+
+if [ $rand -le 44 ]
+then
+echo  "Magick!"
+
+if [ $res -eq 1 ]
+then
+echo "Y teby stone, y meny paper - ti proigral!"
+
+elif [ $res -eq 2 ]
+then
+echo "Y teby scissor, y meny stone - ti proigral!"
+
+elif [ $res -eq 3 ]
+then
+echo "Y teby paper, y meny scissor - ti proigral!"
+
+elif [ $res -eq 4 ]
+then
+echo "Run, Forest ($USER), RUN!"
+
+else
+echo "You are stupid or ...? Ok, but write correct please!"
+fi
+
+else
+otv=$((1 + $RANDOM % 3))
+
+if [ $res -eq 1 ] && [ $otv -eq 1 ]
+then
+echo "Nichya stone na stone..."
+
+elif [ $res -eq 1 ] && [ $otv -eq 2 ]
+then
+echo "Ooohh nooo ti viuygral y tebya stone a y meny scissor"
+
+elif [ $res -eq 1 ] && [ $otv -eq 3 ]
+then
+echo "Y teby stone, y meny paper - ti proigral!"
+
+elif [ $res -eq 2 ] && [ $otv -eq 1 ]
+then
+echo "Y teby scissor, y meny stone - ti proigral!"
+
+elif [ $res -eq 2 ] && [ $otv -eq 2 ]
+then
+echo "Nichya scissor na scissor"
+
+elif [ $res -eq 2 ] && [ $otv -eq 3 ]
+then
+echo "Ooohh nooo ti viuygral y tebya scissor a y meny paper"
+
+elif [ $res -eq 3 ] && [ $otv -eq 1 ]
+then
+echo "Ooohh nooo ti viuygral y tebya paper a y meny stone"
+
+elif [ $res -eq 3 ] && [ $otv -eq 2 ]
+then
+echo "Y teby paper, y meny scissor - ti proigral!"
+
+elif [ $res -eq 3 ] && [ $otv -eq 3 ]
+then
+echo "Nichya paper na paper"
+
+elif [ $res -eq 4 ]
+then
+echo "Run, Forest ($USER), RUN!"
+
+else
+echo "You are stupid or ...? Ok, but write correct please!"
+fi
+fi
+done
+
+
+pwd

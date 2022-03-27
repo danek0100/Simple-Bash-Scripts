@@ -1,0 +1,236 @@
+#!/bin/bash
+
+cp '/etc/passwd' './passwd_copy' 
+#touch passwd_copy
+#cat -b ./passwd_wl > ./passwd_copy
+#rm passwd_wl
+
+echo "Terminal: Hello, I suggest you change some filds in passwd"
+
+while true
+do
+
+echo "Terminal: If you want watch on passwd input '1' else somthing"
+
+read cho
+if [[ "$cho" == "1" ]]
+then
+echo ""
+cat ./passwd_copy
+echo ""
+fi
+
+while true
+do
+echo "Terminal: Choice user and input his name or if you want exit input '-1'"
+read name
+
+if [[ "$name" == "-1" ]] 
+then
+break
+fi
+
+echo ""
+echo "Terminal: Ok, let's check that it is right..."
+cat ./passwd_copy | grep ^"$name:"
+
+echo ""
+echo "Terminal: Is it right? (Y/N)"
+read ch
+if [[ "$ch" == "Y" ]]
+then 
+break
+fi
+done
+
+if [[ "$name" == "-1" ]] 
+then
+echo ""
+echo "Terminal: Thanks for working with me!"
+rm passwd_copy
+break
+fi
+
+
+cat ./passwd_copy | grep ^"$name:" >> start_len.txt
+start_len=`cat ./passwd_copy | grep ^"$name:"`
+
+echo ""
+echo ""
+echo "Terminal: What are we will change?"
+echo "1 - login"
+
+echo ""
+echo "Terminal: Warning! If login and name == then, not use this fuction!"
+echo "2 - name"
+echo ""
+echo "7 - home catalog"
+echo "8 - start-up terminal"
+echo "9 - print info now"
+echo "10 - print old info"
+echo "11 - change user or exit"
+echo ""
+echo "Terminal: Warning! Fields can be changed if they are provided, if the user does not have them, it is forbidden to use these functions! For example, root!"
+echo "3 - adress"
+echo "4 - phone number"
+echo "5 - home numper"
+echo "6 - other iform"
+
+
+
+eval $(awk -F ":" '{printf "old_logi=%s", $1}' start_len.txt)
+new_logi=$old_logi
+
+
+while true
+do 
+echo ""
+
+read choice
+
+if [[ $choice == "1" ]]
+then
+echo "Terminal: Login now:"
+#awk -F ":" '{print $1}' start_len.txt
+#old_log=`awk -F ":"'{print $1}' start_len.txt`
+eval $(awk -F ":" '{printf "old_log=%s", $1}' start_len.txt)
+echo "$old_log"
+echo "Terminal: Input new login, please"
+read new_log
+sed -i "s/${old_log}/${new_log}/" ./passwd_copy 
+new_logi=$new_log
+echo "Terminal: Are somthing else?"
+fi
+
+
+if [[ $choice == "2" ]]
+then
+echo "Terminal: Name now:"
+eval $(awk -F ":" '{printf "info_field=%s", $5}' start_len.txt)
+touch info_len.txt
+echo $info_field >> info_len.txt
+eval $(awk -F "," '{printf "old_name=%s", $1}' info_len.txt)
+echo "$old_name"
+echo "Terminal: Input new name, please"
+read new_name
+if [[ "$old_name" == "$new_logi" ]] 
+then
+sed -i "s/${old_name}/${new_name}/" ./passwd_copy 
+sed -i "s/${old_name}/${new_name}/" ./passwd_copy 
+sed -i "s/${new_name}}/${old_name}/" ./passwd_copy 
+fi
+if [[ "$old_name" != "$new_log" ]] 
+then
+sed -i "s/${old_name}/${new_name}/" ./passwd_copy 
+fi
+rm info_len.txt
+echo "Terminal: Are somthing else?"
+fi
+
+
+if [[ $choice == "3" ]]
+then
+echo "Terminal: Adress now:"
+eval $(awk -F ":" '{printf "info_field=%s", $5}' start_len.txt)
+touch info_len.txt
+echo $info_field >> info_len.txt
+eval $(awk -F "," '{printf "old_ad=%s", $2}' info_len.txt)
+echo "$old_ad"
+echo "Terminal: Input new adress, please"
+read new_ad
+sed -i "s/${old_ad}/${new_ad}/g" ./passwd_copy 
+rm info_len.txt
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "4" ]]
+then
+echo "Terminal: Phone number now:"
+eval $(awk -F ":" '{printf "info_field=%s", $5}' start_len.txt)
+touch info_len.txt
+echo $info_field >> info_len.txt
+eval $(awk -F "," '{printf "old_ph=%s", $3}' info_len.txt)
+echo "$old_ph"
+echo "Terminal: Input new phone number, please"
+read new_ph
+sed -i "s/${old_ph}/${new_ph}/g" ./passwd_copy 
+rm info_len.txt
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "5" ]]
+then
+echo "Terminal: Home number now:"
+eval $(awk -F ":" '{printf "info_field=%s", $5}' start_len.txt)
+touch info_len.txt
+echo $info_field >> info_len.txt
+eval $(awk -F "," '{printf "old_ho=%s", $4}' info_len.txt)
+echo "$old_ho"
+echo "Terminal: Input new home number, please"
+read new_ho
+sed -i "s/${old_ho}/${new_ho}/g" ./passwd_copy 
+rm info_len.txt
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "6" ]]
+then
+echo "Terminal: Other info now:"
+eval $(awk -F ":" '{printf "info_field=%s", $5}' start_len.txt)
+touch info_len.txt
+echo $info_field >> info_len.txt
+eval $(awk -F "," '{printf "old_inf=%s", $5}' info_len.txt)
+echo "$old_inf"
+echo "Terminal: Input new info, please"
+read new_inf
+sed -i "s/${old_inf}/${new_inf}/g" ./passwd_copy 
+rm info_len.txt
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "7" ]]
+then
+echo "Terminal: home catalog now:"
+eval $(awk -F ":" '{printf "info_field=%s", $6}' start_len.txt)
+echo $info_field
+echo "Terminal: Input new home catalog, please"
+read new_cat
+sed -i "s|${info_field}|${new_cat}|" ./passwd_copy 
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "8" ]]
+then
+echo "Terminal: start-up now:"
+eval $(awk -F ":" '{printf "info_field=%s", $7}' start_len.txt)
+echo $info_field
+echo "Terminal: Input new start_up term, please"
+read new_term
+sed -i "s|${info_field}|${new_term}|" ./passwd_copy 
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "9" ]]
+then
+echo "Terminal: User info now:"
+cat ./passwd_copy | grep ^"$new_logi:"
+echo "Terminal: Are somthing else?"
+fi
+
+
+if [[ $choice == "10" ]]
+then
+echo "Terminal: Old info user:"
+echo "$start_len"
+echo "Terminal: Are somthing else?"
+fi
+
+if [[ $choice == "11" ]]
+then
+echo "Terminal: Ok, I del temp user info, we may starting again"
+echo ""
+rm start_len.txt
+break
+fi
+done
+done

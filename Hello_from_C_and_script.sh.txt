@@ -1,0 +1,28 @@
+#!/bin/bash
+
+touch hellofromc.c
+
+echo "#include \"stdio.h\"
+#include \"stdlib.h\"
+
+#define SHELLSCR \"\\
+#/bin/bash \\n\\
+touch hello.c \\n\\
+echo '#include \\\"stdio.h\\\" \\n int main() { \\n   printf(\\\"Hello world from C and script...\\\"); \\n   return 0; \\n}' > hello.c \\n\\
+gcc -O -Wall -o hello hello.c \\n\\
+./hello \"
+
+int main() {
+  int systemRet = system(SHELLSCR);
+  
+  if(systemRet == -1){
+  printf(\"Eror\");
+  }
+  return 0;
+} " >> hellofromc.c
+gcc -O -Wall -o hellofromc hellofromc.c
+./hellofromc
+rm hellofromc
+rm hellofromc.c
+rm hello.c
+rm hello
